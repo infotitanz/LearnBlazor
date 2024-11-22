@@ -1,20 +1,78 @@
-﻿@page "/learn-blazor/bind-prop"
+﻿@page "/products"
 
-<h3>Product - Data Binding</h3>
+<div class="row">
+  
+    <div class="col-6 border p-3">
 
-Name: @Product.Name 
-<br/>
-IsActive: @Product.IsActive
-<br />
-Price: @Product.Price
-<br />
-Input Price: <input type="number" @bind="Product.Price" />
+        <h3>Product - Playground</h3>
+
+        <hr />
+
+        <label class="form-label">Input Price:</label>
+        <input type="number" @bind="Product.Price" @bind:event="oninput" />
+
+        <label class="form-label">IsActive:</label>
+        <input type="checkbox" @bind="Product.IsActive" />
+
+        <br />
+        <br />
+    <label class="form-label">Options</label>
+    <select class="form-control-sm" @bind="selectedProp">
+        @foreach (var prop in Product.ProductProperties)
+        {
+            <option value="@prop.Key">@prop.Key</option>
+        }
+    </select>
+  
+    </div>
+
+    <div class="col-6 border p-3">
+
+        <h3>Product - Summary</h3>
+
+        <hr />
+
+            <label class="form-label">Name:</label>
+            <span>@Product.Name</span>
+
+        <br />
+
+
+            <label class="form-label">Price:</label>
+            <span>@Product.Price</span>
+
+        <br />
+
+            <label class="form-label">This product is:</label>
+            <span>@(Product.IsActive ? "Active" : "Inactive")</span>
+
+        <br />
+
+        @if (!string.IsNullOrEmpty(selectedProp))
+        {
+            <div class="mb-3">
+                <span>@selectedProp: @Product.ProductProperties.FirstOrDefault(s => s.Key == selectedProp)?.Value</span>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+
 
 @code {
-    Models.Product Product = new (){
-            Id = 1,
-            Name = "Product 1",
-            IsActive = true,
-            Price = 5
+    private string selectedProp = "";
+
+    Product Product = new () {
+        Id = 1,
+        Name = "T-Shirt",
+        IsActive = true,
+        Price = 25,
+        ProductProperties = new List<ProductProp>(){
+            new ProductProp{ Id=1, Key="Color", Value="Red" },
+            new ProductProp{ Id=2, Key="Size", Value="Large"},
+            new ProductProp{ Id=3, Key="Brand", Value="Boss"}
+        }
     };
 }

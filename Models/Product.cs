@@ -1,4 +1,4 @@
-﻿namespace LearnBlazor.Components.Models
+﻿namespace LearnBlazor.Models
 {
     public class Product
     {
@@ -7,5 +7,6 @@
 
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
+        public required IEnumerable<ProductProp> ProductProperties { get; set; } = new List<ProductProp>();
     }
 }
