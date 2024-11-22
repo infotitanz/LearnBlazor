@@ -55,7 +55,57 @@
 
     </div>
 
+    <div class="col p-4">
+        <div>
+            <h2 class="text-success">Product List</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in products)
+                    {
+                        <tr>
+                            <td><input type="text" @bind="product.Name" @bind:event="oninput" /></td>
+                            <td><input type="number" @bind="product.Price" @bind:event="oninput" /></td>
+
+                            <td>
+                                <input type="checkbox" @bind="product.IsActive" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <br />
+
+            <h2>Products Summary</h2>
+
+            @foreach (var product in products)
+            {
+                    @if (product.IsActive)
+                    {
+                    <div class="border p-3 mb-3">
+                        <h3>@product.Name</h3>
+                        <p>Price: @product.Price</p>
+                        <p>Status: @(product.IsActive ? "Available" : "Unavailable")</p>
+                    </div>
+                    }
+          
+            
+            }
+
+        </div>
+    </div>
+
 </div>
+
+
+
 
 @code {
     private string _selectedProp = "";
@@ -73,5 +123,51 @@
             new() { Id = 3, Key = "Brand", Value = "Boss" }
         }
     };
+
+    List<Product> products = new();
+
+    protected override void OnInitialized()
+    {
+        products.Add(new(){
+                Id = 1,
+                Name = "T-Shirt",
+                IsActive = true,
+                Price = 25,
+                ProductProperties = new List<ProductProp>()
+            {
+                new() { Id = 1, Key = "Color", Value = "Red" },
+                new() { Id = 2, Key = "Size", Value = "Large" },
+                new() { Id = 3, Key = "Brand", Value = "Boss" }
+            }
+        });
+
+        products.Add(new()
+            {
+                Id = 2,
+                Name = "Pants",
+                IsActive = false,
+                Price = 50,
+                ProductProperties = new List<ProductProp>()
+            {
+                new() { Id = 1, Key = "Color", Value = "Blue" },
+                new() { Id = 2, Key = "Size", Value = "Medium" },
+                new() { Id = 3, Key = "Brand", Value = "Nike" }
+            }
+            });
+
+        products.Add(new()
+            {
+                Id = 3,
+                Name = "Shoes",
+                IsActive = true,
+                Price = 100,
+                ProductProperties = new List<ProductProp>()
+            {
+                new() { Id = 1, Key = "Color", Value = "Black" },
+                new() { Id = 2, Key = "Size", Value = "Small" },
+                new() { Id = 3, Key = "Brand", Value = "Adidas" }
+            }
+            });
+    }
 
 }
