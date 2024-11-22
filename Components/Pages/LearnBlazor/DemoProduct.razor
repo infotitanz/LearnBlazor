@@ -1,0 +1,64 @@
+﻿@page "/learn-blazor/demo-product"
+
+<h3>DemoProduct</h3>
+ <hr />
+<div class="row">
+
+    @foreach (var product in products)
+            {
+            <div class="col-3 border p-1">
+                <h3>@product.Name</h3>
+                <p>Price: @product.Price</p>
+                <p>Status: @(product.IsActive ? "Available" : "Unavailable")</p>
+            </div>
+            }
+</div>
+
+@code {
+    List<Product> products = new();
+
+    protected override void OnInitialized()
+    {
+        products.Add(new()
+            {
+                Id = 1,
+                Name = "T-Shirt",
+                IsActive = true,
+                Price = 25,
+                ProductProperties = new List<ProductProp>()
+            {
+                new() { Id = 1, Key = "Color", Value = "Red" },
+                new() { Id = 2, Key = "Size", Value = "Large" },
+                new() { Id = 3, Key = "Brand", Value = "Boss" }
+            }
+            });
+
+        products.Add(new()
+            {
+                Id = 2,
+                Name = "Pants",
+                IsActive = false,
+                Price = 50,
+                ProductProperties = new List<ProductProp>()
+            {
+                new() { Id = 1, Key = "Color", Value = "Blue" },
+                new() { Id = 2, Key = "Size", Value = "Medium" },
+                new() { Id = 3, Key = "Brand", Value = "Nike" }
+            }
+            });
+
+        products.Add(new()
+            {
+                Id = 3,
+                Name = "Shoes",
+                IsActive = true,
+                Price = 100,
+                ProductProperties = new List<ProductProp>()
+            {
+                new() { Id = 1, Key = "Color", Value = "Black" },
+                new() { Id = 2, Key = "Size", Value = "Small" },
+                new() { Id = 3, Key = "Brand", Value = "Adidas" }
+            }
+            });
+    }
+}
