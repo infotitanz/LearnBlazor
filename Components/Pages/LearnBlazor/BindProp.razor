@@ -1,57 +1,55 @@
-﻿@page "/products"
+﻿@page "/product"
 
 <div class="row">
-  
+
     <div class="col-6 border p-3">
-
         <h3>Product - Playground</h3>
-
-        <hr />
+        <hr/>
 
         <label class="form-label">Input Price:</label>
-        <input type="number" @bind="Product.Price" @bind:event="oninput" />
+        <input type="number" @bind="_product.Price" @bind:event="oninput"/>
 
         <label class="form-label">IsActive:</label>
-        <input type="checkbox" @bind="Product.IsActive" />
+        <input type="checkbox" @bind="_product.IsActive"/>
 
-        <br />
-        <br />
-    <label class="form-label">Options</label>
-    <select class="form-control-sm" @bind="selectedProp">
-        @foreach (var prop in Product.ProductProperties)
-        {
-            <option value="@prop.Key">@prop.Key</option>
-        }
-    </select>
-  
+        <br/>
+        <br/>
+        <label class="form-label">Options</label>
+        <select class="form-control-sm" @bind="_selectedProp">
+            @foreach (var prop in _product.ProductProperties)
+            {
+                <option value="@prop.Key">@prop.Key</option>
+            }
+        </select>
+
     </div>
 
     <div class="col-6 border p-3">
 
         <h3>Product - Summary</h3>
 
-        <hr />
+        <hr/>
 
-            <label class="form-label">Name:</label>
-            <span>@Product.Name</span>
+        <label class="form-label">Name:</label>
+        <span>@_product.Name</span>
 
-        <br />
+        <br/>
 
 
-            <label class="form-label">Price:</label>
-            <span>@Product.Price</span>
+        <label class="form-label">Price:</label>
+        <span>@_product.Price</span>
 
-        <br />
+        <br/>
 
-            <label class="form-label">This product is:</label>
-            <span>@(Product.IsActive ? "Active" : "Inactive")</span>
+        <label class="form-label">This product is:</label>
+        <span>@(_product.IsActive ? "Active" : "Inactive")</span>
 
-        <br />
+        <br/>
 
-        @if (!string.IsNullOrEmpty(selectedProp))
+        @if (!string.IsNullOrEmpty(_selectedProp))
         {
             <div class="mb-3">
-                <span>@selectedProp: @Product.ProductProperties.FirstOrDefault(s => s.Key == selectedProp)?.Value</span>
+                <span>@_selectedProp: @_product.ProductProperties.FirstOrDefault(s => s.Key == _selectedProp)?.Value</span>
             </div>
         }
 
@@ -59,20 +57,21 @@
 
 </div>
 
-
-
 @code {
-    private string selectedProp = "";
+    private string _selectedProp = "";
 
-    Product Product = new () {
+    readonly Product _product = new()
+    {
         Id = 1,
         Name = "T-Shirt",
         IsActive = true,
         Price = 25,
-        ProductProperties = new List<ProductProp>(){
-            new ProductProp{ Id=1, Key="Color", Value="Red" },
-            new ProductProp{ Id=2, Key="Size", Value="Large"},
-            new ProductProp{ Id=3, Key="Brand", Value="Boss"}
+        ProductProperties = new List<ProductProp>()
+        {
+            new() { Id = 1, Key = "Color", Value = "Red" },
+            new() { Id = 2, Key = "Size", Value = "Large" },
+            new() { Id = 3, Key = "Brand", Value = "Boss" }
         }
     };
+
 }
