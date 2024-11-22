@@ -1,7 +1,8 @@
 ﻿@page "/product"
 
-<div class="row">
+<PageTitle>Product</PageTitle>
 
+<div class="row">
     <div class="col-6 border p-3">
         <h3>Product - Playground</h3>
         <hr/>
@@ -12,8 +13,7 @@
         <label class="form-label">IsActive:</label>
         <input type="checkbox" @bind="_product.IsActive"/>
 
-        <br/>
-        <br/>
+        <br/><br/>
         <label class="form-label">Options</label>
         <select class="form-control-sm" @bind="_selectedProp">
             @foreach (var prop in _product.ProductProperties)
@@ -21,24 +21,20 @@
                 <option value="@prop.Key">@prop.Key</option>
             }
         </select>
-
     </div>
 
     <div class="col-6 border p-3">
-
         <h3>Product - Summary</h3>
-
         <hr/>
 
         <label class="form-label">Name:</label>
         <span>@_product.Name</span>
-
+        
         <br/>
-
-
+        
         <label class="form-label">Price:</label>
         <span>@_product.Price</span>
-
+        
         <br/>
 
         <label class="form-label">This product is:</label>
@@ -52,7 +48,6 @@
                 <span>@_selectedProp: @_product.ProductProperties.FirstOrDefault(s => s.Key == _selectedProp)?.Value</span>
             </div>
         }
-
     </div>
 
     <div class="col p-4">
@@ -60,52 +55,42 @@
             <h2 class="text-success">Product List</h2>
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Active</th>
-                    </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Active</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var product in products)
-                    {
-                        <tr>
-                            <td><input type="text" @bind="product.Name" @bind:event="oninput" /></td>
-                            <td><input type="number" @bind="product.Price" @bind:event="oninput" /></td>
-
-                            <td>
-                                <input type="checkbox" @bind="product.IsActive" />
-                            </td>
-                        </tr>
-                    }
+                @foreach (var product in _products)
+                {
+                    <tr>
+                        <td><input type="text" @bind="product.Name" @bind:event="oninput"/></td>
+                        <td><input type="number" @bind="product.Price" @bind:event="oninput"/></td>
+                        <td><input type="checkbox" @bind="product.IsActive"/></td>
+                    </tr>
+                }
                 </tbody>
             </table>
 
-            <br />
+            <br/>
 
             <h2>Products Summary</h2>
 
-            @foreach (var product in products)
+            @foreach (var product in _products)
             {
-                    @if (product.IsActive)
-                    {
+                @if (product.IsActive)
+                {
                     <div class="border p-3 mb-3">
                         <h3>@product.Name</h3>
                         <p>Price: @product.Price</p>
                         <p>Status: @(product.IsActive ? "Available" : "Unavailable")</p>
                     </div>
-                    }
-          
-            
+                }
             }
-
         </div>
     </div>
-
 </div>
-
-
-
 
 @code {
     private string _selectedProp = "";
@@ -116,7 +101,7 @@
         Name = "T-Shirt",
         IsActive = true,
         Price = 25,
-        ProductProperties = new List<ProductProp>()
+        ProductProperties = new List<ProductProp>
         {
             new() { Id = 1, Key = "Color", Value = "Red" },
             new() { Id = 2, Key = "Size", Value = "Large" },
@@ -124,16 +109,17 @@
         }
     };
 
-    List<Product> products = new();
+    readonly List<Product> _products = new();
 
     protected override void OnInitialized()
     {
-        products.Add(new(){
-                Id = 1,
-                Name = "T-Shirt",
-                IsActive = true,
-                Price = 25,
-                ProductProperties = new List<ProductProp>()
+        _products.Add(new()
+        {
+            Id = 1,
+            Name = "T-Shirt",
+            IsActive = true,
+            Price = 25,
+            ProductProperties = new List<ProductProp>
             {
                 new() { Id = 1, Key = "Color", Value = "Red" },
                 new() { Id = 2, Key = "Size", Value = "Large" },
@@ -141,33 +127,32 @@
             }
         });
 
-        products.Add(new()
-            {
-                Id = 2,
-                Name = "Pants",
-                IsActive = false,
-                Price = 50,
-                ProductProperties = new List<ProductProp>()
+        _products.Add(new()
+        {
+            Id = 2,
+            Name = "Pants",
+            IsActive = false,
+            Price = 50,
+            ProductProperties = new List<ProductProp>
             {
                 new() { Id = 1, Key = "Color", Value = "Blue" },
                 new() { Id = 2, Key = "Size", Value = "Medium" },
                 new() { Id = 3, Key = "Brand", Value = "Nike" }
             }
-            });
+        });
 
-        products.Add(new()
-            {
-                Id = 3,
-                Name = "Shoes",
-                IsActive = true,
-                Price = 100,
-                ProductProperties = new List<ProductProp>()
+        _products.Add(new()
+        {
+            Id = 3,
+            Name = "Shoes",
+            IsActive = true,
+            Price = 100,
+            ProductProperties = new List<ProductProp>
             {
                 new() { Id = 1, Key = "Color", Value = "Black" },
                 new() { Id = 2, Key = "Size", Value = "Small" },
                 new() { Id = 3, Key = "Brand", Value = "Adidas" }
             }
-            });
+        });
     }
-
 }
